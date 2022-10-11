@@ -1,14 +1,14 @@
 const express = require("express");
-const routes = require("./routes");
+const routes = require("./routes/index.js");
 
 const PORT = process.env.PORT || 8080;
 
-const app = express()
+const app = express();
 
-app.use(express.json);
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api', routes);
+app.use("/api", routes);
 app.get('*', (req, res) => {
   const { url, method } = req
   res.status(404).json({

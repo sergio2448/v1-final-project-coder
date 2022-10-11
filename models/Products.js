@@ -8,10 +8,7 @@ class Product {
 
   getAll = async () => {
     try {
-      const content = await fs.readFile(
-        pathDataProduct,
-        "utf-8"
-      );
+      const content = await fs.readFile(pathDataProduct, "utf-8");
       const products = JSON.parse(content || "[]");
       return products;
     } catch (error) {
@@ -40,12 +37,12 @@ class Product {
           let setProduct = {
             id,
             timestamp,
-            name: name || prod.name,
-            description: description || prod.description,
-            code: code || prod.code,
-            imgUrl: imgUrl || prod.imgUrl,
-            price: price || prod.price,
-            stock: stock || prod.stock,
+            name,
+            description,
+            code,
+            imgUrl,
+            price,
+            stock,
           };
           return setProduct;
         } else {
@@ -53,10 +50,7 @@ class Product {
         }
       });
 
-      await fs.writeFile(
-        pathDataProduct,
-        JSON.stringify(updatedProducts)
-      );
+      await fs.writeFile(pathDataProduct, JSON.stringify(updatedProducts));
     } catch (error) {
       console.log(error.message);
     }
@@ -67,10 +61,7 @@ class Product {
       const products = await this.getAll();
       products.push(product);
 
-      await fs.writeFile(
-        pathDataProduct,
-        JSON.stringify(products)
-      );
+      await fs.writeFile(pathDataProduct, JSON.stringify(products));
     } catch (error) {
       console.log(error.message);
     }
@@ -78,21 +69,27 @@ class Product {
 
   deleteAll = async () => {
     try {
-      await fs.writeFile(path.resolve(__dirname, '../data/products.json'), '[]')
+      await fs.writeFile(
+        path.resolve(__dirname, "../data/products.json"),
+        "[]"
+      );
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
-  }
+  };
 
   deleteById = async (id) => {
     try {
-      const products = await this.getAll()
-      const filteredProducts = products.filter(prod => prod.id !== id)
-      await fs.writeFile(path.resolve(__dirname, '../data/products.json'), JSON.stringify(filteredProducts))
+      const products = await this.getAll();
+      const filteredProducts = products.filter((prod) => prod.id !== id);
+      await fs.writeFile(
+        path.resolve(__dirname, "../data/products.json"),
+        JSON.stringify(filteredProducts)
+      );
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
-  }
+  };
 }
 
-export default Product
+module.exports = Product;
