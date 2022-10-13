@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const Product = require("../models/Products");
 const { faker } = require("@faker-js/faker");
+const checkAuthentication = require("../middlewares/authentication");
 
 const router = Router();
 let product = new Product();
@@ -20,7 +21,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", checkAuthentication, async (req, res) => {
   try {
     let { name, description, code, imgUrl, price, stock } = req.body;
     let newProduct = {
@@ -40,7 +41,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", checkAuthentication, async (req, res) => {
   try {
     const { id } = req.params;
     const { name, description, code, imgUrl, price, stock } = req.body;
@@ -66,7 +67,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", checkAuthentication, async (req, res) => {
   try {
     const { id } = req.params;
     await product.deleteById(id);

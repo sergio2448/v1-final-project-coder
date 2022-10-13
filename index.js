@@ -16,6 +16,27 @@ app.get('*', (req, res) => {
     description: `route ${url} method ${method} not implemented`
   })
 });
+app.post("*", (req, res) => {
+  const { url, method } = req;
+  res.status(404).json({
+    error: -2,
+    description: `route ${url} method ${method} not implemented`,
+  });
+});
+app.put("*", (req, res) => {
+  const { url, method } = req;
+  res.status(404).json({
+    error: -2,
+    description: `route ${url} method ${method} not implemented`,
+  });
+});
+app.delete("*", (req, res) => {
+  const { url, method } = req;
+  res.status(404).json({
+    error: -2,
+    description: `route ${url} method ${method} not implemented`,
+  });
+});
 
 const server = app.listen(PORT, () => {
   console.log(`Server is up and running on port ${PORT}`)
