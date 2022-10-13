@@ -9,7 +9,7 @@ class Cart {
   getAll = async () => {
     try {
       const content = await fs.readFile(pathDataCart, "utf-8");
-      const carts = JSON.stringify(content || "[]");
+      const carts = JSON.parse(content || "[]");
       return carts;
     } catch (error) {
       console.log(error.message);
@@ -30,7 +30,7 @@ class Cart {
   getProductsCart = async (cartId) => {
     try {
       const cart = await this.getCartById(cartId);
-      const products = cart.products;
+      const products = cart[0].product;
       return products;
     } catch (error) {
       console.log(error.message);
@@ -53,8 +53,8 @@ class Cart {
       const carts = await this.getAll();
       const updatedCarts = carts.map((cart) => {
         if (cart.id === cartId) {
-          let updatedCart = cart.push(product);
-          return updatedCart;
+          cart[0].product.push(product);
+          return cart;
         } else {
           return cart;
         }
@@ -81,10 +81,11 @@ class Cart {
       const carts = await this.getAll();
       const updatedCarts = carts.map((cart) => {
         if (cart.id === cartId) {
-          let updatedProducts = cart.products.filter(
-            (product) => product.id !== productId
+          const filterdProducts = cart.product.filter(
+            (prod) => prod.id !== productId
           );
-          return updatedProducts;
+          cart.product = filterdProducts;
+          return cart;
         } else {
           return cart;
         }

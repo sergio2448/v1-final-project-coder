@@ -7,14 +7,13 @@ let cart = new Cart();
 
 router.post("/", async (req, res) => {
   try {
-    const { product } = req.body;
     const newCart = {
       id: faker.datatype.uuid(),
-      timestamp: new Data.now(),
+      timestamp: Date.now(),
       product: [],
     };
     await cart.addCart(newCart);
-    res.status(201).send({ cartId: id });
+    res.status(201).send({ cartId: newCart.id });
   } catch (error) {
     console.log(error.message);
   }
@@ -43,7 +42,7 @@ router.get("/:id/products", async (req, res) => {
 router.post("/:id/products", async (req, res) => {
   try {
     const { id } = req.params;
-    const { product } = req.body;
+    const product = req.body;
     await cart.addProductToCart(id, product);
     res.status(201).json({ message: "Successfully added product" });
   } catch (error) {
